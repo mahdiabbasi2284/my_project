@@ -8,6 +8,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
@@ -24,15 +25,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RotateAnimation rotateAnimation = new RotateAnimation(0,
+        final RotateAnimation rotateAnimation = new RotateAnimation(0,
                 360,
                 Animation.RELATIVE_TO_SELF,
                 0.5f,
                 Animation.RELATIVE_TO_SELF,
                 0.5f);
-        rotateAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        final AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.setDuration(1000);
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animationSet.setFillAfter(true);
+        animationSet.addAnimation(rotateAnimation);
+        animationSet.addAnimation(alphaAnimation);
+
+       /* rotateAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         rotateAnimation.setDuration(1000);
-        /*TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
+        TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
                 0,
                 Animation.RELATIVE_TO_PARENT,
                 0,
@@ -57,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.startAnimation(rotateAnimation);
+                imageView.startAnimation(animationSet);
             }
         });
 
